@@ -1,0 +1,11 @@
+{
+    "id": "dmsStopwatch",
+    "name": "DMS Stopwatch",
+    "description": "Simple stopwatch widget for DankBar",
+    "version": "1.0.0",
+    "license": "GPL-3.0",
+    "author": "Loc Huynh",
+    "icon": "timer",
+    "component": "./StopwatchWidget.qml",
+
+}
