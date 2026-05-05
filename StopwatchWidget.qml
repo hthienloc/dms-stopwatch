@@ -58,13 +58,15 @@ PluginComponent {
             DankIcon {
                 name: globalIsRunning.value ? "pause" : "play_arrow"
                 size: Theme.iconSizeSmall
-                color: globalIsRunning.value ? (globalElapsedSeconds.value > 0 ? Theme.warning : Theme.primary) : Theme.surfaceText
+                color: !globalIsRunning.value && globalElapsedSeconds.value > 0 ? Theme.warning :
+                       globalIsRunning.value ? Theme.primary : Theme.surfaceText
                 anchors.verticalCenter: parent.verticalCenter
             }
 
             StyledText {
                 text: formatTime(globalElapsedSeconds.value)
-                color: globalIsRunning.value ? (globalElapsedSeconds.value > 0 ? Theme.warning : Theme.primary) : Theme.surfaceText
+                color: !globalIsRunning.value && globalElapsedSeconds.value > 0 ? Theme.warning :
+                       globalIsRunning.value ? Theme.primary : Theme.surfaceText
                 font.pixelSize: Theme.fontSizeMedium
                 isMonospace: true
                 anchors.verticalCenter: parent.verticalCenter
