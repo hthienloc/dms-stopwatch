@@ -10,7 +10,7 @@ mkdir -p ~/.config/DankMaterialShell/plugins
 git clone https://github.com/hthienloc/dms-stopwatch ~/.config/DankMaterialShell/plugins/dmsStopwatch
 ```
 
-Then in DMS: **Settings (Meta+,)** → **Plugins** → **Scan for Plugins** → Enable **DMS Stopwatch**.
+Then in DMS: **Settings (Meta+,)** → **Plugins** → **Scan for Plugins** → Enable **Stopwatch**.
 
 To update:
 ```bash
