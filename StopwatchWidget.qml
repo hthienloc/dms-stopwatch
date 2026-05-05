@@ -100,7 +100,7 @@ PluginComponent {
     popoutContent: Component {
         PopoutComponent {
             headerText: "Stopwatch"
-            detailsText: globalIsRunning.value ? "Running..." : "Paused"
+            detailsText: globalIsRunning.value ? "Running..." : (globalElapsedSeconds.value > 0 ? "Paused" : "Ready")
             showCloseButton: true
 
             Column {
