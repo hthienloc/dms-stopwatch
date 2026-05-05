@@ -121,8 +121,8 @@ PluginComponent {
                     DankButton {
                         text: globalIsRunning.value ? "Stop" : (globalElapsedSeconds.value > 0 ? "Resume" : "Start")
                         iconName: globalIsRunning.value ? "pause" : "play_arrow"
-                        backgroundColor: globalIsRunning.value ? Theme.error : Theme.primary
-                        textColor: globalIsRunning.value ? Theme.onError : Theme.onPrimary
+                        backgroundColor: globalIsRunning.value ? Theme.error : (globalElapsedSeconds.value > 0 ? Theme.warning : Theme.primary)
+                        textColor: globalIsRunning.value ? Theme.onError : (globalElapsedSeconds.value > 0 ? Theme.onSurface : Theme.onPrimary)
                         onClicked: {
                             globalIsRunning.set(!globalIsRunning.value)
                         }
