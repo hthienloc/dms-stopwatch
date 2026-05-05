@@ -2,6 +2,7 @@
 
 A simple stopwatch plugin for [Dank Material Shell](https://github.com/AvengeMedia/DankMaterialShell).
 
+![Screenshot](screenshot.png)
 ## Installation
 
 ```bash
