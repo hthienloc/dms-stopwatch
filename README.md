@@ -1,4 +1,4 @@
-# DMS Stopwatch
+# Stopwatch Plugin
 
 A simple stopwatch plugin for [Dank Material Shell](https://github.com/AvengeMedia/DankMaterialShell).
 
