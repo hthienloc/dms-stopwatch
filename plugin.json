@@ -6,5 +6,6 @@
     "license": "GPL-3.0",
     "author": "Loc Huynh",
     "icon": "timer",
-    "component": "./StopwatchWidget.qml"
+    "component": "./StopwatchWidget.qml",
+    "screenshot": "https://raw.githubusercontent.com/hthienloc/dms-stopwatch/main/screenshot.png"
 }
