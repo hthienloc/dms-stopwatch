@@ -136,6 +136,13 @@ PluginComponent {
             Column {
                 width: parent.width
                 spacing: Theme.spacingL
+                focus: true
+                Keys.onPressed: (event) => {
+                    if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                        globalIsRunning.set(!globalIsRunning.value);
+                        event.accepted = true;
+                    }
+                }
 
                 StyledText {
                     text: formatTime(globalElapsedMs.value, true)
