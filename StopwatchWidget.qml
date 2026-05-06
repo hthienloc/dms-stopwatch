@@ -130,7 +130,8 @@ PluginComponent {
     popoutContent: Component {
         FocusScope {
             id: contentFocusScope
-            anchors.fill: parent
+            width: parent ? parent.width : 0
+            implicitHeight: mainContent.implicitHeight
             focus: true
 
             property var parentPopout: null
@@ -143,6 +144,8 @@ PluginComponent {
             }
 
             PopoutComponent {
+                id: mainContent
+                width: parent.width
                 headerText: "Stopwatch"
                 detailsText: globalIsRunning.value ? "Running..." : (globalElapsedMs.value > 0 ? "Paused" : "Ready")
                 showCloseButton: true
