@@ -1,4 +1,7 @@
 import QtQuick
+import QtQuick.Controls
+import Quickshell
+import Quickshell.Io
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -8,8 +11,8 @@ PluginComponent {
     id: root
 
     PluginGlobalVar {
-        id: globalElapsedSeconds
-        varName: "elapsedSeconds"
+        id: globalElapsedMs
+        varName: "elapsedMs"
         defaultValue: 0
     }
 
@@ -19,80 +22,106 @@ PluginComponent {
         defaultValue: false
     }
 
+    readonly property bool showTimeOnBar: pluginData.showTimeOnBar ?? true
+    readonly property string displayFormat: pluginData.displayFormat || "full"
+    readonly property bool showMilliseconds: pluginData.showMilliseconds ?? false
+    readonly property int msPrecision: parseInt(pluginData.msPrecision || "2")
+
     Timer {
         id: stopwatchTimer
-        interval: 1000
+        interval: root.showMilliseconds ? 10 : 1000
         repeat: true
         running: globalIsRunning.value
         onTriggered: {
-            globalElapsedSeconds.set(globalElapsedSeconds.value + 1)
+            globalElapsedMs.set(globalElapsedMs.value + interval)
         }
     }
 
-    function formatTime(totalSeconds, isDetailed = false) {
+    function formatTime(totalMs, isDetailed = false) {
+        const totalSeconds = Math.floor(totalMs / 1000)
+        const ms = totalMs % 1000
+        
         const hours = Math.floor(totalSeconds / 3600)
         const minutes = Math.floor((totalSeconds % 3600) / 60)
         const seconds = totalSeconds % 60
         
         let result = ""
         
-        // Always show hours in detailed popout or if elapsed time is > 1 hour
-        if (isDetailed || hours > 0) {
-            result += hours.toString().padStart(2, '0') + ":"
+        if (root.displayFormat === "minimal" && !isDetailed) {
+            if (hours > 0) result = hours + "h " + minutes + "m"
+            else if (minutes > 0) result = minutes + "m " + seconds + "s"
+            else result = seconds + "s"
+        } else if (root.displayFormat === "compact" && !isDetailed) {
+            if (hours > 0) result += hours + "h "
+            if (minutes > 0 || hours > 0) result += minutes + "m "
+            result += seconds + "s"
+        } else {
+            // Full format
+            if (isDetailed || hours > 0) {
+                result += hours.toString().padStart(2, '0') + ":"
+            }
+            result += minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0')
         }
         
-        result += minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0')
+        if (root.showMilliseconds || isDetailed) {
+            let msStr = ms.toString().padStart(3, '0')
+            result += "." + msStr.substring(0, root.msPrecision)
+        }
         
-        return result
+        return result.trim()
     }
 
     pillRightClickAction: () => {
         globalIsRunning.set(!globalIsRunning.value)
     }
 
+    readonly property color pillColor: {
+        if (globalIsRunning.value) return Theme.primary
+        if (globalElapsedMs.value > 0) return Theme.warning
+        return Theme.surfaceText
+    }
+
     horizontalBarPill: Component {
         Row {
-            id: content
             spacing: Theme.spacingS
 
             DankIcon {
                 name: globalIsRunning.value ? "pause" : "play_arrow"
                 size: Theme.iconSizeSmall
-                color: !globalIsRunning.value && globalElapsedSeconds.value > 0 ? Theme.warning :
-                       globalIsRunning.value ? Theme.primary : Theme.surfaceText
+                color: root.pillColor
                 anchors.verticalCenter: parent.verticalCenter
             }
 
             StyledText {
-                text: formatTime(globalElapsedSeconds.value)
-                color: !globalIsRunning.value && globalElapsedSeconds.value > 0 ? Theme.warning :
-                       globalIsRunning.value ? Theme.primary : Theme.surfaceText
+                text: formatTime(globalElapsedMs.value)
+                color: root.pillColor
                 font.pixelSize: Theme.fontSizeMedium
                 isMonospace: true
                 anchors.verticalCenter: parent.verticalCenter
+                visible: root.showTimeOnBar
             }
         }
     }
 
     verticalBarPill: Component {
         Column {
-            id: content
             spacing: Theme.spacingS
 
             DankIcon {
                 name: globalIsRunning.value ? "pause" : "play_arrow"
                 size: Theme.iconSizeSmall
-                color: globalIsRunning.value ? (globalElapsedSeconds.value > 0 ? Theme.warning : Theme.primary) : Theme.surfaceText
+                color: root.pillColor
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
             StyledText {
-                text: formatTime(globalElapsedSeconds.value)
-                color: globalIsRunning.value ? (globalElapsedSeconds.value > 0 ? Theme.warning : Theme.primary) : Theme.surfaceText
+                text: formatTime(globalElapsedMs.value)
+                color: root.pillColor
                 font.pixelSize: Theme.fontSizeSmall
                 isMonospace: true
                 anchors.horizontalCenter: parent.horizontalCenter
                 rotation: 90
+                visible: root.showTimeOnBar
             }
         }
     }
@@ -100,7 +129,7 @@ PluginComponent {
     popoutContent: Component {
         PopoutComponent {
             headerText: "Stopwatch"
-            detailsText: globalIsRunning.value ? "Running..." : (globalElapsedSeconds.value > 0 ? "Paused" : "Ready")
+            detailsText: globalIsRunning.value ? "Running..." : (globalElapsedMs.value > 0 ? "Paused" : "Ready")
             showCloseButton: true
 
             Column {
@@ -108,7 +137,7 @@ PluginComponent {
                 spacing: Theme.spacingL
 
                 StyledText {
-                    text: formatTime(globalElapsedSeconds.value, true)
+                    text: formatTime(globalElapsedMs.value, true)
                     font.pixelSize: 48
                     isMonospace: true
                     font.weight: Font.Bold
@@ -121,10 +150,10 @@ PluginComponent {
                     anchors.horizontalCenter: parent.horizontalCenter
 
                     DankButton {
-                        text: globalIsRunning.value ? "Stop" : (globalElapsedSeconds.value > 0 ? "Resume" : "Start")
+                        text: globalIsRunning.value ? "Stop" : (globalElapsedMs.value > 0 ? "Resume" : "Start")
                         iconName: globalIsRunning.value ? "pause" : "play_arrow"
-                        backgroundColor: globalIsRunning.value ? Theme.error : (globalElapsedSeconds.value > 0 ? Theme.warning : Theme.primary)
-                        textColor: globalIsRunning.value ? Theme.onError : (globalElapsedSeconds.value > 0 ? Theme.onSurface : Theme.onPrimary)
+                        backgroundColor: globalIsRunning.value ? Theme.error : (globalElapsedMs.value > 0 ? Theme.warning : Theme.primary)
+                        textColor: globalIsRunning.value ? Theme.onError : (globalElapsedMs.value > 0 ? Theme.onSurface : Theme.onPrimary)
                         onClicked: {
                             globalIsRunning.set(!globalIsRunning.value)
                         }
@@ -137,13 +166,13 @@ PluginComponent {
                         textColor: Theme.surfaceText
                         onClicked: {
                             globalIsRunning.set(false)
-                            globalElapsedSeconds.set(0)
+                            globalElapsedMs.set(0)
                         }
                     }
                 }
             }
         }
     }
-    popoutWidth: 300
-    popoutHeight: 220
+    popoutWidth: 350
+    popoutHeight: 250
 }
