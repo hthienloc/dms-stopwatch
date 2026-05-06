@@ -181,7 +181,7 @@ PluginComponent {
                 width: parent.width
                 headerText: "Stopwatch"
                 detailsText: globalIsRunning.value ? "Running..." : (globalAccumulatedMs.value > 0 ? "Paused" : "Ready")
-                showCloseButton: true
+                showCloseButton: false
 
                 Column {
                     width: parent.width
