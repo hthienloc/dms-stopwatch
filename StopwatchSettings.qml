@@ -76,6 +76,13 @@ PluginSettings {
                 defaultValue: "2"
                 visible: pluginData.showMilliseconds ?? false
             }
+
+            ToggleSetting {
+                settingKey: "showHints"
+                label: "Show Accessibility Hints"
+                description: "Display helpful usage tips at the bottom of the popout."
+                defaultValue: true
+            }
         }
     }
 }
