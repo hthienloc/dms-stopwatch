@@ -150,7 +150,7 @@ PluginComponent {
                     anchors.horizontalCenter: parent.horizontalCenter
 
                     DankButton {
-                        text: globalIsRunning.value ? "Stop" : (globalElapsedMs.value > 0 ? "Resume" : "Start")
+                        text: globalIsRunning.value ? "Pause" : (globalElapsedMs.value > 0 ? "Resume" : "Start")
                         iconName: globalIsRunning.value ? "pause" : "play_arrow"
                         backgroundColor: globalIsRunning.value ? Theme.error : (globalElapsedMs.value > 0 ? Theme.warning : Theme.primary)
                         textColor: globalIsRunning.value ? Theme.onError : (globalElapsedMs.value > 0 ? Theme.onSurface : Theme.onPrimary)
@@ -170,9 +170,17 @@ PluginComponent {
                         }
                     }
                 }
+
+                StyledText {
+                    text: "Hint: Right-click the bar icon to pause/resume."
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                    horizontalAlignment: Text.AlignHCenter
+                    width: parent.width
+                }
             }
         }
     }
     popoutWidth: 350
-    popoutHeight: 250
+    popoutHeight: 280
 }
