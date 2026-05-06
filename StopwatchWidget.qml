@@ -128,64 +128,79 @@ PluginComponent {
     }
 
     popoutContent: Component {
-        PopoutComponent {
-            headerText: "Stopwatch"
-            detailsText: globalIsRunning.value ? "Running..." : (globalElapsedMs.value > 0 ? "Paused" : "Ready")
-            showCloseButton: true
+        FocusScope {
+            id: contentFocusScope
+            anchors.fill: parent
+            focus: true
 
-            Column {
-                width: parent.width
-                spacing: Theme.spacingL
-                focus: true
-                Keys.onPressed: (event) => {
-                    if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        globalIsRunning.set(!globalIsRunning.value);
-                        event.accepted = true;
-                    }
+            property var parentPopout: null
+
+            Connections {
+                target: parentPopout
+                function onOpened() {
+                    contentFocusScope.forceActiveFocus();
                 }
+            }
 
-                StyledText {
-                    text: formatTime(globalElapsedMs.value, true)
-                    font.pixelSize: 48
-                    isMonospace: true
-                    font.weight: Font.Bold
-                    color: Theme.surfaceText
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
+            PopoutComponent {
+                headerText: "Stopwatch"
+                detailsText: globalIsRunning.value ? "Running..." : (globalElapsedMs.value > 0 ? "Paused" : "Ready")
+                showCloseButton: true
 
-                Row {
-                    spacing: Theme.spacingM
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    DankButton {
-                        text: globalIsRunning.value ? "Pause" : (globalElapsedMs.value > 0 ? "Resume" : "Start")
-                        iconName: globalIsRunning.value ? "pause" : "play_arrow"
-                        backgroundColor: globalIsRunning.value ? Theme.error : (globalElapsedMs.value > 0 ? Theme.warning : Theme.primary)
-                        textColor: globalIsRunning.value ? Theme.onError : (globalElapsedMs.value > 0 ? Theme.onSurface : Theme.onPrimary)
-                        onClicked: {
-                            globalIsRunning.set(!globalIsRunning.value)
-                        }
-                    }
-
-                    DankButton {
-                        text: "Reset"
-                        iconName: "refresh"
-                        backgroundColor: Theme.surfaceContainerHigh
-                        textColor: Theme.surfaceText
-                        onClicked: {
-                            globalIsRunning.set(false)
-                            globalElapsedMs.set(0)
-                        }
-                    }
-                }
-
-                StyledText {
-                    text: "Hint: Right-click the bar icon to pause/resume."
-                    font.pixelSize: Theme.fontSizeSmall
-                    color: Theme.surfaceVariantText
-                    horizontalAlignment: Text.AlignHCenter
+                Column {
                     width: parent.width
-                    visible: root.showHints
+                    spacing: Theme.spacingL
+
+                    Keys.onPressed: (event) => {
+                        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                            globalIsRunning.set(!globalIsRunning.value);
+                            event.accepted = true;
+                        }
+                    }
+
+                    StyledText {
+                        text: formatTime(globalElapsedMs.value, true)
+                        font.pixelSize: 48
+                        isMonospace: true
+                        font.weight: Font.Bold
+                        color: Theme.surfaceText
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    Row {
+                        spacing: Theme.spacingM
+                        anchors.horizontalCenter: parent.horizontalCenter
+
+                        DankButton {
+                            text: globalIsRunning.value ? "Pause" : (globalElapsedMs.value > 0 ? "Resume" : "Start")
+                            iconName: globalIsRunning.value ? "pause" : "play_arrow"
+                            backgroundColor: globalIsRunning.value ? Theme.error : (globalElapsedMs.value > 0 ? Theme.warning : Theme.primary)
+                            textColor: globalIsRunning.value ? Theme.onError : (globalElapsedMs.value > 0 ? Theme.onSurface : Theme.onPrimary)
+                            onClicked: {
+                                globalIsRunning.set(!globalIsRunning.value)
+                            }
+                        }
+
+                        DankButton {
+                            text: "Reset"
+                            iconName: "refresh"
+                            backgroundColor: Theme.surfaceContainerHigh
+                            textColor: Theme.surfaceText
+                            onClicked: {
+                                globalIsRunning.set(false)
+                                globalElapsedMs.set(0)
+                            }
+                        }
+                    }
+
+                    StyledText {
+                        text: "Hint: Right-click the bar icon to pause/resume."
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.surfaceVariantText
+                        horizontalAlignment: Text.AlignHCenter
+                        width: parent.width
+                        visible: root.showHints
+                    }
                 }
             }
         }
