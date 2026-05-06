@@ -63,7 +63,7 @@ PluginComponent {
             result += minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0')
         }
         
-        if (root.showMilliseconds || isDetailed) {
+        if (root.showMilliseconds) {
             let msStr = ms.toString().padStart(3, '0')
             result += "." + msStr.substring(0, root.msPrecision)
         }
