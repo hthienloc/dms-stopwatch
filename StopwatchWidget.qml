@@ -26,6 +26,7 @@ PluginComponent {
     readonly property string displayFormat: pluginData.displayFormat || "full"
     readonly property bool showMilliseconds: pluginData.showMilliseconds ?? false
     readonly property int msPrecision: parseInt(pluginData.msPrecision || "2")
+    readonly property bool showHints: pluginData.showHints ?? true
 
     Timer {
         id: stopwatchTimer
