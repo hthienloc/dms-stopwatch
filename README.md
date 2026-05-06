@@ -1,8 +1,9 @@
 # Stopwatch Plugin
 
-A simple stopwatch plugin for [Dank Material Shell](https://github.com/AvengeMedia/DankMaterialShell).
+A high-precision stopwatch plugin for [Dank Material Shell](https://github.com/AvengeMedia/DankMaterialShell).
 
 ![Screenshot](screenshot.png)
+
 ## Installation
 
 ```bash
@@ -19,16 +20,24 @@ git -C ~/.config/DankMaterialShell/plugins/stopwatch pull
 
 ## Features
 
-- Displays elapsed time in the bar (auto-expands to HH:MM:SS when needed)
-- Left click: Open detailed popout with Start/Stop/Reset controls
-- Right click: Toggle start/pause directly from the bar
-- Uses DMS theme tokens and monospace font
+- **High Precision**: Optional millisecond display (Speedrun mode) with configurable precision (1, 2, or 3 digits).
+- **Customizable Display**: 
+    - Toggle time visibility on the bar.
+    - Multiple bar formats: Full (`00:00:00`), Compact (`1h 5m`), or Minimal (`5m 10s`).
+- **Interactive Controls**:
+    - **Left click**: Open detailed popout with Start/Pause/Reset controls.
+    - **Right click**: Quick toggle start/pause directly from the bar icon.
+- **Smart UI**:
+    - Colors change based on state (Primary when running, Warning when paused).
+    - Accessibility hints (configurable).
+- Uses DMS theme tokens and monospace font for perfectly aligned digits.
 
 ## Structure
 
 ```
 dms-stopwatch/
 ├── StopwatchWidget.qml    # Main logic and UI
+├── StopwatchSettings.qml  # Settings interface
 ├── plugin.json            # Plugin manifest
 ├── LICENSE
 └── README.md
