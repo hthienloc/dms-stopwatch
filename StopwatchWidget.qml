@@ -190,8 +190,7 @@ PluginComponent {
 
                     Keys.onPressed: (event) => {
                         if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                            if (globalIsRunning.value) pauseStopwatch();
-                            else startStopwatch();
+                            resetStopwatch();
                             event.accepted = true;
                         }
                     }
@@ -230,7 +229,7 @@ PluginComponent {
                     }
 
                     StyledText {
-                        text: "Hint: [Enter] or Right-click bar icon to start/pause."
+                        text: "Hint: [Enter] to reset. Right-click bar icon to start/pause."
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
                         horizontalAlignment: Text.AlignHCenter
