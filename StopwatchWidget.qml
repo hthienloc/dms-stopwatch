@@ -10,9 +10,10 @@ import qs.Modules.Plugins
 PluginComponent {
     id: root
 
+    // Persistent state
     PluginGlobalVar {
-        id: globalElapsedMs
-        varName: "elapsedMs"
+        id: globalAccumulatedMs
+        varName: "elapsedMs" // Keep name for compatibility, but it acts as accumulated time
         defaultValue: 0
     }
 
@@ -22,25 +23,56 @@ PluginComponent {
         defaultValue: false
     }
 
+    PluginGlobalVar {
+        id: globalStartTime
+        varName: "startTime"
+        defaultValue: 0
+    }
+
+    // Config
     readonly property bool showTimeOnBar: pluginData.showTimeOnBar ?? true
     readonly property string displayFormat: pluginData.displayFormat || "full"
     readonly property bool showMilliseconds: pluginData.showMilliseconds ?? false
     readonly property int msPrecision: parseInt(pluginData.msPrecision || "2")
     readonly property bool showHints: pluginData.showHints ?? true
 
+    // Internal ticker for UI refresh
+    property real now: Date.now()
     Timer {
-        id: stopwatchTimer
-        interval: root.showMilliseconds ? 10 : 1000
+        id: refreshTimer
+        interval: root.showMilliseconds ? 33 : 500 // ~30fps if ms enabled, otherwise slow refresh
         repeat: true
         running: globalIsRunning.value
-        onTriggered: {
-            globalElapsedMs.set(globalElapsedMs.value + interval)
-        }
+        onTriggered: root.now = Date.now()
+    }
+
+    // The "Truth" - calculated from system clock
+    readonly property real currentElapsedMs: {
+        if (!globalIsRunning.value) return globalAccumulatedMs.value;
+        return globalAccumulatedMs.value + (now - globalStartTime.value);
+    }
+
+    function startStopwatch() {
+        globalStartTime.set(Date.now());
+        globalIsRunning.set(true);
+        now = Date.now();
+    }
+
+    function pauseStopwatch() {
+        const total = currentElapsedMs;
+        globalAccumulatedMs.set(total);
+        globalIsRunning.set(false);
+    }
+
+    function resetStopwatch() {
+        globalIsRunning.set(false);
+        globalAccumulatedMs.set(0);
+        globalStartTime.set(0);
     }
 
     function formatTime(totalMs, isDetailed = false) {
         const totalSeconds = Math.floor(totalMs / 1000)
-        const ms = totalMs % 1000
+        const ms = Math.floor(totalMs % 1000)
         
         const hours = Math.floor(totalSeconds / 3600)
         const minutes = Math.floor((totalSeconds % 3600) / 60)
@@ -73,12 +105,13 @@ PluginComponent {
     }
 
     pillRightClickAction: () => {
-        globalIsRunning.set(!globalIsRunning.value)
+        if (globalIsRunning.value) pauseStopwatch();
+        else startStopwatch();
     }
 
     readonly property color pillColor: {
         if (globalIsRunning.value) return Theme.primary
-        if (globalElapsedMs.value > 0) return Theme.warning
+        if (globalAccumulatedMs.value > 0) return Theme.warning
         return Theme.surfaceText
     }
 
@@ -94,7 +127,7 @@ PluginComponent {
             }
 
             StyledText {
-                text: formatTime(globalElapsedMs.value)
+                text: formatTime(root.currentElapsedMs)
                 color: root.pillColor
                 font.pixelSize: Theme.fontSizeMedium
                 isMonospace: true
@@ -116,7 +149,7 @@ PluginComponent {
             }
 
             StyledText {
-                text: formatTime(globalElapsedMs.value)
+                text: formatTime(root.currentElapsedMs)
                 color: root.pillColor
                 font.pixelSize: Theme.fontSizeSmall
                 isMonospace: true
@@ -147,7 +180,7 @@ PluginComponent {
                 id: mainContent
                 width: parent.width
                 headerText: "Stopwatch"
-                detailsText: globalIsRunning.value ? "Running..." : (globalElapsedMs.value > 0 ? "Paused" : "Ready")
+                detailsText: globalIsRunning.value ? "Running..." : (globalAccumulatedMs.value > 0 ? "Paused" : "Ready")
                 showCloseButton: true
 
                 Column {
@@ -157,13 +190,14 @@ PluginComponent {
 
                     Keys.onPressed: (event) => {
                         if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                            globalIsRunning.set(!globalIsRunning.value);
+                            if (globalIsRunning.value) pauseStopwatch();
+                            else startStopwatch();
                             event.accepted = true;
                         }
                     }
 
                     StyledText {
-                        text: formatTime(globalElapsedMs.value, true)
+                        text: formatTime(root.currentElapsedMs)
                         font.pixelSize: 48
                         isMonospace: true
                         font.weight: Font.Bold
@@ -176,12 +210,13 @@ PluginComponent {
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         DankButton {
-                            text: globalIsRunning.value ? "Pause" : (globalElapsedMs.value > 0 ? "Resume" : "Start")
+                            text: globalIsRunning.value ? "Pause" : (globalAccumulatedMs.value > 0 ? "Resume" : "Start")
                             iconName: globalIsRunning.value ? "pause" : "play_arrow"
-                            backgroundColor: globalIsRunning.value ? Theme.error : (globalElapsedMs.value > 0 ? Theme.warning : Theme.primary)
-                            textColor: globalIsRunning.value ? Theme.onError : (globalElapsedMs.value > 0 ? Theme.onSurface : Theme.onPrimary)
+                            backgroundColor: globalIsRunning.value ? Theme.error : (globalAccumulatedMs.value > 0 ? Theme.warning : Theme.primary)
+                            textColor: globalIsRunning.value ? Theme.onError : (globalAccumulatedMs.value > 0 ? Theme.onSurface : Theme.onPrimary)
                             onClicked: {
-                                globalIsRunning.set(!globalIsRunning.value)
+                                if (globalIsRunning.value) pauseStopwatch();
+                                else startStopwatch();
                             }
                         }
 
@@ -190,15 +225,12 @@ PluginComponent {
                             iconName: "refresh"
                             backgroundColor: Theme.surfaceContainerHigh
                             textColor: Theme.surfaceText
-                            onClicked: {
-                                globalIsRunning.set(false)
-                                globalElapsedMs.set(0)
-                            }
+                            onClicked: resetStopwatch()
                         }
                     }
 
                     StyledText {
-                        text: "Hint: [Enter] to start/pause. Right-click bar icon to toggle."
+                        text: "Hint: [Enter] or Right-click bar icon to start/pause."
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
                         horizontalAlignment: Text.AlignHCenter
