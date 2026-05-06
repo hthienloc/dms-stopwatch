@@ -198,7 +198,7 @@ PluginComponent {
                     }
 
                     StyledText {
-                        text: "Hint: Right-click the bar icon to pause/resume."
+                        text: "Hint: [Enter] to start/pause. Right-click bar icon to toggle."
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
                         horizontalAlignment: Text.AlignHCenter
