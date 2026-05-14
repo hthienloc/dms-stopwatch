@@ -17,7 +17,6 @@ PluginSettings {
         color: Theme.surfaceText
     }
 
-    // --- Display Section ---
     StyledRect {
         width: parent.width
         height: displayColumn.implicitHeight + Theme.spacingL * 2
