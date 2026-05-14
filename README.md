@@ -6,7 +6,7 @@ High-precision stopwatch with persistent state.
 
 ## Install
 
-[**Install Now**](dms://plugin/install/stopwatch)
+[Install Now](dms://plugin/install/stopwatch)
 
 Or manually:
 ```bash
