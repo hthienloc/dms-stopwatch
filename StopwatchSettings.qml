@@ -17,13 +17,6 @@ PluginSettings {
     SettingsCard {
         SectionTitle { text: "Display" }
 
-        ToggleSetting {
-            settingKey: "showTimeOnBar"
-            label: "Show Time on Bar"
-            description: "Display the elapsed time next to the icon on the bar."
-            defaultValue: true
-        }
-
         SelectionSetting {
             settingKey: "displayFormat"
             label: "Display Format"
@@ -34,7 +27,6 @@ PluginSettings {
                 { label: "5m 10s", value: "minimal" }
             ]
             defaultValue: "full"
-            visible: pluginData.showTimeOnBar ?? true
         }
 
         SliderSetting {
@@ -44,13 +36,6 @@ PluginSettings {
             minimum: 0
             maximum: 3
             defaultValue: 0
-        }
-
-        ToggleSetting {
-            settingKey: "showHints"
-            label: "Show Hints"
-            description: "Display helpful usage tips and shortcuts at the bottom of the popout."
-            defaultValue: true
         }
     }
 }

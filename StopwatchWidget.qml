@@ -32,14 +32,12 @@ PluginComponent {
     }
 
     // Config
-    readonly property bool showTimeOnBar: pluginData.showTimeOnBar ?? true
     readonly property string displayFormat: pluginData.displayFormat || "full"
     readonly property int msPrecision: parseInt(pluginData.msPrecision) || 0
     readonly property bool showMilliseconds: msPrecision > 0
     readonly property int fontSize: Theme.fontSizeMedium
     readonly property int digitFontSize: Theme.iconSizeLarge
     readonly property int spacing: Theme.spacingS
-    readonly property bool showHints: pluginData.showHints ?? true
 
     // Internal ticker for UI refresh
     property real now: Date.now()
@@ -141,7 +139,6 @@ PluginComponent {
                 font.pixelSize: Theme.fontSizeMedium
                 isMonospace: true
                 anchors.verticalCenter: parent.verticalCenter
-                visible: root.showTimeOnBar
             }
         }
     }
@@ -164,7 +161,6 @@ PluginComponent {
                 isMonospace: true
                 anchors.horizontalCenter: parent.horizontalCenter
                 rotation: 90
-                visible: root.showTimeOnBar
             }
         }
     }
