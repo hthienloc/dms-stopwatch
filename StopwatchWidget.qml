@@ -177,7 +177,9 @@ PluginComponent {
             Connections {
                 target: parentPopout
                 function onOpened() {
-                    contentFocusScope.forceActiveFocus();
+                    Qt.callLater(() => {
+                        mainColumn.forceActiveFocus();
+                    });
                 }
             }
 
@@ -189,6 +191,7 @@ PluginComponent {
                 showCloseButton: false
 
                 Column {
+                    id: mainColumn
                     width: parent.width
                     spacing: Theme.spacingL
                     focus: true
@@ -198,6 +201,12 @@ PluginComponent {
                             resetStopwatch();
                             event.accepted = true;
                         }
+                    }
+
+                    Component.onCompleted: {
+                        Qt.callLater(() => {
+                            mainColumn.forceActiveFocus();
+                        });
                     }
 
                     // Restored old style: Hardcoded centered layout for perfect alignment
