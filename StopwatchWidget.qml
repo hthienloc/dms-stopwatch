@@ -200,6 +200,7 @@ PluginComponent {
                     }
 
                     StatusDisplay {
+                        large: true
                         iconName: globalIsRunning.value ? "pause" : "play_arrow"
                         title: globalIsRunning.value ? "RUNNING" : (globalAccumulatedMs.value > 0 ? "PAUSED" : "READY")
                         subtitle: formatTime(root.currentElapsedMs, true)
