@@ -15,6 +15,16 @@ PluginSettings {
     }
 
     SettingsCard {
+        SectionTitle { text: "Usage Guide" }
+        UsageGuide {
+            items: [
+                "<b>Left-click</b> to <b>Start</b> or <b>Pause</b> the stopwatch.",
+                "<b>Right-click</b> to <b>Reset</b> the time to zero."
+            ]
+        }
+    }
+
+    SettingsCard {
         SectionTitle { text: "Display" }
 
         SelectionSetting {
