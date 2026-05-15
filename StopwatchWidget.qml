@@ -185,7 +185,7 @@ PluginComponent {
                 id: mainContent
                 width: parent.width
                 headerText: "Stopwatch"
-                detailsText: globalIsRunning.value ? "Running..." : (globalAccumulatedMs.value > 0 ? "Paused" : "Ready")
+                detailsText: ""
                 showCloseButton: false
 
                 Column {
@@ -209,28 +209,13 @@ PluginComponent {
                         
                         Behavior on color { ColorAnimation { duration: 200 } }
 
-                        Column {
+                        StyledText {
+                            text: formatTime(root.currentElapsedMs, true)
+                            font.pixelSize: 48
+                            font.weight: Font.Bold
+                            color: globalIsRunning.value ? Theme.onPrimary : Theme.surfaceText
                             anchors.centerIn: parent
-                            spacing: 2
-                            width: parent.width
-
-                            StyledText {
-                                text: globalIsRunning.value ? "RUNNING" : (globalAccumulatedMs.value > 0 ? "PAUSED" : "READY")
-                                font.pixelSize: 14
-                                font.weight: Font.Bold
-                                opacity: 0.8
-                                color: globalIsRunning.value ? Theme.onPrimary : Theme.surfaceText
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-
-                            StyledText {
-                                text: formatTime(root.currentElapsedMs, true)
-                                font.pixelSize: 48
-                                font.weight: Font.Bold
-                                color: globalIsRunning.value ? Theme.onPrimary : Theme.surfaceText
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                isMonospace: true
-                            }
+                            isMonospace: true
                         }
                     }
 
