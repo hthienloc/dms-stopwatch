@@ -37,24 +37,13 @@ PluginSettings {
             visible: pluginData.showTimeOnBar ?? true
         }
 
-        ToggleSetting {
-            settingKey: "showMilliseconds"
-            label: "Show Milliseconds"
-            description: "Display milliseconds for high-precision timing (Speedrun mode)."
-            defaultValue: false
-        }
-
-        SelectionSetting {
-            settingKey: "msPrecision"
+        SliderSetting {
             label: "Millisecond Precision"
-            description: "Number of decimal places for milliseconds."
-            options: [
-                { label: ".0 (1 digit)", value: "1" },
-                { label: ".00 (2 digits)", value: "2" },
-                { label: ".000 (3 digits)", value: "3" }
-            ]
-            defaultValue: "2"
-            visible: pluginData.showMilliseconds ?? false
+            description: "Number of decimal places (0 to disable)."
+            settingKey: "msPrecision"
+            minimum: 0
+            maximum: 3
+            defaultValue: 0
         }
 
         ToggleSetting {

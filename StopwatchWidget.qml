@@ -34,7 +34,8 @@ PluginComponent {
     // Config
     readonly property bool showTimeOnBar: pluginData.showTimeOnBar ?? true
     readonly property string displayFormat: pluginData.displayFormat || "full"
-    readonly property bool showMilliseconds: pluginData.showMilliseconds ?? false
+    readonly property int msPrecision: parseInt(pluginData.msPrecision) || 0
+    readonly property bool showMilliseconds: msPrecision > 0
     readonly property int fontSize: Theme.fontSizeMedium
     readonly property int digitFontSize: Theme.iconSizeLarge
     readonly property int spacing: Theme.spacingS
@@ -102,7 +103,7 @@ PluginComponent {
         
         if (root.showMilliseconds) {
             let msStr = ms.toString().padStart(3, '0')
-            result += "." + msStr.substring(0, root.msPrecision)
+            result += "." + msStr.substring(0, Math.min(3, root.msPrecision))
         }
         
         return result.trim()
@@ -199,11 +200,38 @@ PluginComponent {
                         }
                     }
 
-                    StatusDisplay {
-                        large: true
-                        title: globalIsRunning.value ? "RUNNING" : (globalAccumulatedMs.value > 0 ? "PAUSED" : "READY")
-                        subtitle: formatTime(root.currentElapsedMs, true)
-                        active: globalIsRunning.value
+                    // Restored old style: Hardcoded centered layout for perfect alignment
+                    Rectangle {
+                        width: parent.width
+                        height: 110
+                        radius: Theme.cornerRadius
+                        color: globalIsRunning.value ? Theme.primary : Theme.surfaceContainerHigh
+                        
+                        Behavior on color { ColorAnimation { duration: 200 } }
+
+                        Column {
+                            anchors.centerIn: parent
+                            spacing: 2
+                            width: parent.width
+
+                            StyledText {
+                                text: globalIsRunning.value ? "RUNNING" : (globalAccumulatedMs.value > 0 ? "PAUSED" : "READY")
+                                font.pixelSize: 14
+                                font.weight: Font.Bold
+                                opacity: 0.8
+                                color: globalIsRunning.value ? Theme.onPrimary : Theme.surfaceText
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+                            StyledText {
+                                text: formatTime(root.currentElapsedMs, true)
+                                font.pixelSize: 48
+                                font.weight: Font.Bold
+                                color: globalIsRunning.value ? Theme.onPrimary : Theme.surfaceText
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                isMonospace: true
+                            }
+                        }
                     }
 
                     Row {
@@ -247,6 +275,6 @@ PluginComponent {
             }
         }
     }
-    popoutWidth: 350
+    popoutWidth: 380
     popoutHeight: root.showHints ? 280 : 240
 }
