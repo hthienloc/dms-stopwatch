@@ -172,6 +172,7 @@ PluginComponent {
             headerText: "Stopwatch"
             detailsText: ""
             showCloseButton: false
+            focus: true
 
             property var parentPopout: null
 
