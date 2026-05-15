@@ -197,13 +197,11 @@ PluginComponent {
                         }
                     }
 
-                    StyledText {
-                        text: formatTime(root.currentElapsedMs)
-                        font.pixelSize: 48
-                        isMonospace: true
-                        font.weight: Font.Bold
-                        color: Theme.surfaceText
-                        anchors.horizontalCenter: parent.horizontalCenter
+                    StatusDisplay {
+                        iconName: globalIsRunning.value ? "pause" : "play_arrow"
+                        title: globalIsRunning.value ? "RUNNING" : (globalAccumulatedMs.value > 0 ? "PAUSED" : "READY")
+                        subtitle: formatTime(root.currentElapsedMs, true)
+                        active: globalIsRunning.value
                     }
 
                     Row {
