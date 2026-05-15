@@ -33,6 +33,7 @@ PluginComponent {
 
     // Config
     readonly property string displayFormat: pluginData.displayFormat || "full"
+    readonly property bool showIcon: pluginData.showIcon ?? true
     readonly property int msPrecision: parseInt(pluginData.msPrecision) || 0
     readonly property bool showMilliseconds: msPrecision > 0
     readonly property int fontSize: Theme.fontSizeMedium
@@ -124,9 +125,10 @@ PluginComponent {
 
     horizontalBarPill: Component {
         Row {
-            spacing: Theme.spacingS
+            spacing: root.showIcon ? Theme.spacingS : 0
 
             DankIcon {
+                visible: root.showIcon
                 name: globalIsRunning.value ? "pause" : "play_arrow"
                 size: Theme.iconSizeSmall
                 color: root.pillColor
@@ -145,9 +147,10 @@ PluginComponent {
 
     verticalBarPill: Component {
         Column {
-            spacing: Theme.spacingS
+            spacing: root.showIcon ? Theme.spacingS : 2
 
             DankIcon {
+                visible: root.showIcon
                 name: globalIsRunning.value ? "pause" : "play_arrow"
                 size: Theme.iconSizeSmall
                 color: root.pillColor

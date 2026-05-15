@@ -39,6 +39,13 @@ PluginSettings {
             defaultValue: "full"
         }
 
+        ToggleSetting {
+            settingKey: "showIcon"
+            label: "Show Icon"
+            description: "Display the play/pause icon on the bar."
+            defaultValue: true
+        }
+
         SliderSetting {
             label: "Millisecond Precision"
             description: "Number of decimal places (0 to disable)."
