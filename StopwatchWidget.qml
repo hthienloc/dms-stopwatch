@@ -6,6 +6,8 @@ import qs.Common
 import qs.Services
 import qs.Widgets
 import qs.Modules.Plugins
+import "./components"
+
 
 PluginComponent {
     id: root
@@ -228,13 +230,18 @@ PluginComponent {
                         }
                     }
 
-                    StyledText {
-                        text: "Hint: Right-click bar icon to start/pause. [Enter] to reset."
-                        font.pixelSize: Theme.fontSizeSmall
-                        color: Theme.surfaceVariantText
-                        horizontalAlignment: Text.AlignHCenter
+                    HintSection {
                         width: parent.width
-                        visible: root.showHints
+                        showHints: root.showHints
+
+                        HintItem {
+                            icon: "mouse"
+                            text: "Right-click bar icon to quickly toggle Start/Pause."
+                        }
+                        HintItem {
+                            icon: "keyboard"
+                            text: "Press [Enter] to reset the stopwatch."
+                        }
                     }
                 }
             }
