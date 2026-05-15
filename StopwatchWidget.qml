@@ -35,7 +35,9 @@ PluginComponent {
     readonly property bool showTimeOnBar: pluginData.showTimeOnBar ?? true
     readonly property string displayFormat: pluginData.displayFormat || "full"
     readonly property bool showMilliseconds: pluginData.showMilliseconds ?? false
-    readonly property int msPrecision: parseInt(pluginData.msPrecision || "2")
+    readonly property int fontSize: Theme.fontSizeMedium
+    readonly property int digitFontSize: Theme.iconSizeLarge
+    readonly property int spacing: Theme.spacingS
     readonly property bool showHints: pluginData.showHints ?? true
 
     // Internal ticker for UI refresh
