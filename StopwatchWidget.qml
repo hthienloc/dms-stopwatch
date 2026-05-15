@@ -107,7 +107,7 @@ PluginComponent {
         return result.trim()
     }
 
-    pillAction: () => {
+    pillClickAction: () => {
         if (globalIsRunning.value) pauseStopwatch();
         else startStopwatch();
     }
