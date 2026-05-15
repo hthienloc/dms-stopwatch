@@ -109,9 +109,13 @@ PluginComponent {
         return result.trim()
     }
 
-    pillRightClickAction: () => {
+    pillAction: () => {
         if (globalIsRunning.value) pauseStopwatch();
         else startStopwatch();
+    }
+
+    pillRightClickAction: () => {
+        resetStopwatch();
     }
 
     readonly property color pillColor: {
@@ -164,120 +168,4 @@ PluginComponent {
             }
         }
     }
-
-    popoutContent: Component {
-        PopoutComponent {
-            id: mainContent
-            width: parent ? parent.width : 0
-            headerText: "Stopwatch"
-            detailsText: ""
-            showCloseButton: false
-            focus: true
-
-            property var parentPopout: null
-
-            Connections {
-                target: parentPopout
-                function onOpened() {
-                    Qt.callLater(() => {
-                        mainColumn.forceActiveFocus();
-                    });
-                }
-            }
-
-            Column {
-                id: mainColumn
-                width: parent.width
-                spacing: Theme.spacingL
-                focus: true
-
-                Keys.onPressed: (event) => {
-                    if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        resetStopwatch();
-                        event.accepted = true;
-                    }
-                }
-
-                Component.onCompleted: {
-                    Qt.callLater(() => {
-                        mainColumn.forceActiveFocus();
-                    });
-                }
-
-                // Restored old style: Hardcoded centered layout for perfect alignment
-                Rectangle {
-                    width: parent.width
-                    height: 110
-                    radius: Theme.cornerRadius
-                    color: globalIsRunning.value ? Theme.primary : Theme.surfaceContainerHigh
-                    
-                    Behavior on color { ColorAnimation { duration: 200 } }
-
-                    Column {
-                        anchors.centerIn: parent
-                        spacing: 2
-                        width: parent.width
-
-                        StyledText {
-                            text: globalIsRunning.value ? "RUNNING" : (globalAccumulatedMs.value > 0 ? "PAUSED" : "READY")
-                            font.pixelSize: 14
-                            font.weight: Font.Bold
-                            opacity: 0.8
-                            color: globalIsRunning.value ? Theme.onPrimary : Theme.surfaceText
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
-
-                        StyledText {
-                            text: formatTime(root.currentElapsedMs, true)
-                            font.pixelSize: 48
-                            font.weight: Font.Bold
-                            color: globalIsRunning.value ? Theme.onPrimary : Theme.surfaceText
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            isMonospace: true
-                        }
-                    }
-                }
-
-                Row {
-                    spacing: Theme.spacingM
-                    anchors.horizontalCenter: parent.horizontalCenter
-
-                    DankButton {
-                        text: globalIsRunning.value ? "Pause" : (globalAccumulatedMs.value > 0 ? "Resume" : "Start")
-                        iconName: globalIsRunning.value ? "pause" : "play_arrow"
-                        backgroundColor: globalIsRunning.value ? Theme.error : (globalAccumulatedMs.value > 0 ? Theme.warning : Theme.primary)
-                        textColor: globalIsRunning.value ? Theme.onError : (globalAccumulatedMs.value > 0 ? Theme.onSurface : Theme.onPrimary)
-                        onClicked: {
-                            if (globalIsRunning.value) pauseStopwatch();
-                            else startStopwatch();
-                        }
-                    }
-
-                    DankButton {
-                        text: "Reset"
-                        iconName: "refresh"
-                        backgroundColor: Theme.surfaceContainerHigh
-                        textColor: Theme.surfaceText
-                        onClicked: resetStopwatch()
-                    }
-                }
-
-                HintSection {
-                    width: parent.width
-                    showHints: root.showHints
-
-                    HintItem {
-                        icon: "mouse"
-                        text: "Right-click bar icon to quickly toggle Start/Pause."
-                    }
-                    HintItem {
-                        icon: "keyboard"
-                        text: "Press [Enter] to reset the stopwatch."
-                    }
-                }
-            }
-        }
-    }
-    popoutWidth: 380
-    popoutHeight: root.showHints ? 280 : 240
 }
