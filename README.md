@@ -14,7 +14,7 @@ High-precision stopwatch with persistent state.
 git clone https://github.com/hthienloc/dms-common ~/.config/DankMaterialShell/plugins/dms-common
 
 # 2. Install this plugin
-dms://plugin/install/stopwatch
+dms plugins install stopwatch
 ```
 
 Or manually:
