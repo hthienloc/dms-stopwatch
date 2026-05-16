@@ -42,8 +42,9 @@ GPL-3.0
 
 ## Roadmap / TODO
 
-- [ ] Lap timing feature with a scrollable list in the popout.
-- [ ] Export lap times to CSV or plain text files.
-- [ ] Multi-stopwatch support to track multiple events simultaneously.
-- [ ] Periodic voice notifications for elapsed time intervals.
+- [ ] **Lap Timing**: Implement lap recording with a scrollable history view in the plugin popup.
+- [ ] **Notification System**: Optional audio/visual alerts at configurable intervals (e.g., every 15 minutes).
+- [ ] **Countdown Timer Mode**: Allow switching from stopwatch to a countdown timer with alarm support.
+- [ ] **Session Export**: Capability to export lap times and session duration to a local CSV file.
+- [ ] **Enhanced Controls**: Add keyboard shortcuts for start, pause, and lap when the widget is focused.
 
