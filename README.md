@@ -39,3 +39,11 @@ git clone https://github.com/hthienloc/dms-stopwatch ~/.config/DankMaterialShell
 ## License
 
 GPL-3.0
+
+## Roadmap / TODO
+
+- [ ] Lap timing feature with a scrollable list in the popout.
+- [ ] Export lap times to CSV or plain text files.
+- [ ] Multi-stopwatch support to track multiple events simultaneously.
+- [ ] Periodic voice notifications for elapsed time intervals.
+
