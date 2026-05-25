@@ -34,6 +34,7 @@ PluginComponent {
     // Config
     readonly property string displayFormat: pluginData.displayFormat || "full"
     readonly property bool showIcon: pluginData.showIcon ?? true
+    readonly property bool hideTimerOnRun: pluginData.hideTimerOnRun ?? false
     readonly property int msPrecision: parseInt(pluginData.msPrecision) || 0
     readonly property bool showMilliseconds: msPrecision > 0
     readonly property int fontSize: Theme.fontSizeMedium
@@ -125,10 +126,10 @@ PluginComponent {
 
     horizontalBarPill: Component {
         Row {
-            spacing: root.showIcon ? Theme.spacingS : 0
+            spacing: (root.showIcon || (root.hideTimerOnRun && globalIsRunning.value)) ? Theme.spacingS : 0
 
             DankIcon {
-                visible: root.showIcon
+                visible: root.showIcon || (root.hideTimerOnRun && globalIsRunning.value)
                 name: globalIsRunning.value ? "pause" : "play_arrow"
                 size: Theme.iconSizeSmall
                 color: root.pillColor
@@ -136,6 +137,7 @@ PluginComponent {
             }
 
             StyledText {
+                visible: !(root.hideTimerOnRun && globalIsRunning.value)
                 text: formatTime(root.currentElapsedMs)
                 color: root.pillColor
                 font.pixelSize: Theme.fontSizeMedium
@@ -147,10 +149,10 @@ PluginComponent {
 
     verticalBarPill: Component {
         Column {
-            spacing: root.showIcon ? Theme.spacingS : 2
+            spacing: (root.showIcon || (root.hideTimerOnRun && globalIsRunning.value)) ? Theme.spacingS : 2
 
             DankIcon {
-                visible: root.showIcon
+                visible: root.showIcon || (root.hideTimerOnRun && globalIsRunning.value)
                 name: globalIsRunning.value ? "pause" : "play_arrow"
                 size: Theme.iconSizeSmall
                 color: root.pillColor
@@ -158,6 +160,7 @@ PluginComponent {
             }
 
             StyledText {
+                visible: !(root.hideTimerOnRun && globalIsRunning.value)
                 text: formatTime(root.currentElapsedMs)
                 color: root.pillColor
                 font.pixelSize: Theme.fontSizeSmall

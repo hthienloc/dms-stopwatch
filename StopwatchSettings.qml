@@ -46,6 +46,13 @@ PluginSettings {
             defaultValue: true
         }
 
+        ToggleSetting {
+            settingKey: "hideTimerOnRun"
+            label: "Hide Timer on Run"
+            description: "Only show the icon while running (shows timer again if paused)."
+            defaultValue: false
+        }
+
         SliderSetting {
             label: "Millisecond Precision"
             description: "Number of decimal places (0 to disable)."
