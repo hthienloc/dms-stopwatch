@@ -1,0 +1,5 @@
+module dms.common
+SettingsCard 1.0 SettingsCard.qml
+SectionTitle 1.0 SectionTitle.qml
+UsageGuide 1.0 UsageGuide.qml
+FeedbackCard 1.0 FeedbackCard.qml
