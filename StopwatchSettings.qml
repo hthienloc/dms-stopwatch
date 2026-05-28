@@ -15,7 +15,7 @@ PluginSettings {
     }
 
     SettingsCard {
-        SectionTitle { text: "Usage Guide" }
+        SectionTitle { text: "Usage Guide"; icon: "menu_book" }
         UsageGuide {
             items: [
                 "<b>Left-click</b> to <b>Start</b> or <b>Pause</b> the stopwatch.",
@@ -25,7 +25,7 @@ PluginSettings {
     }
 
     SettingsCard {
-        SectionTitle { text: "Display" }
+        SectionTitle { text: "Display"; icon: "desktop_windows" }
 
         SelectionSetting {
             settingKey: "displayFormat"
@@ -76,5 +76,9 @@ PluginSettings {
             ]
             defaultValue: "100"
         }
+    }
+
+    FeedbackCard {
+        repoUrl: "https://github.com/hthienloc/dms-stopwatch"
     }
 }
