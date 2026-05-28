@@ -61,5 +61,20 @@ PluginSettings {
             maximum: 3
             defaultValue: 0
         }
+
+        SelectionSetting {
+            settingKey: "refreshInterval"
+            label: "Refresh Interval"
+            description: "Control how frequently the stopwatch display updates."
+            options: [
+                { label: "60 FPS (16ms)", value: "16" },
+                { label: "30 FPS (33ms)", value: "33" },
+                { label: "10 FPS (100ms)", value: "100" },
+                { label: "4 FPS (250ms)", value: "250" },
+                { label: "2 FPS (500ms)", value: "500" },
+                { label: "1 FPS (1000ms)", value: "1000" }
+            ]
+            defaultValue: "100"
+        }
     }
 }

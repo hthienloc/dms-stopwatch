@@ -37,6 +37,7 @@ PluginComponent {
     readonly property bool hideTimerOnRun: pluginData.hideTimerOnRun ?? false
     readonly property int msPrecision: parseInt(pluginData.msPrecision) || 0
     readonly property bool showMilliseconds: msPrecision > 0
+    readonly property int refreshInterval: parseInt(pluginData.refreshInterval) || (root.showMilliseconds ? 33 : 500)
     readonly property int fontSize: Theme.fontSizeMedium
     readonly property int digitFontSize: Theme.iconSizeLarge
     readonly property int spacing: Theme.spacingS
@@ -45,7 +46,7 @@ PluginComponent {
     property real now: Date.now()
     Timer {
         id: refreshTimer
-        interval: root.showMilliseconds ? 33 : 500 // ~30fps if ms enabled, otherwise slow refresh
+        interval: root.refreshInterval
         repeat: true
         running: globalIsRunning.value
         onTriggered: root.now = Date.now()
