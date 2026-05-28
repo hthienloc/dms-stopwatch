@@ -32,9 +32,8 @@ git clone https://github.com/hthienloc/dms-stopwatch ~/.config/DankMaterialShell
 
 | Action | Result |
 |--------|--------|
-| Left click | Open controls |
-| Right click | Start/pause |
-| Enter key | Reset |
+| Left click | Start/pause |
+| Right click | Reset |
 
 ## License
 
