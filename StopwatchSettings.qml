@@ -10,10 +10,6 @@ PluginSettings {
     id: root
     pluginId: "stopwatch"
 
-    PluginHeader {
-        title: "Stopwatch Settings"
-    }
-
     SettingsCard {
         SectionTitle { text: "Usage Guide"; icon: "menu_book" }
         UsageGuide {
