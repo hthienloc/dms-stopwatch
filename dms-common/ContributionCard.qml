@@ -16,51 +16,71 @@ SettingsCard {
 
     Column {
         width: parent.width
-        spacing: Theme.spacingM
+        spacing: Theme.spacingL
 
-        Column {
+        // Technical Section
+        Row {
             width: parent.width
-            spacing: 4
-            StyledText {
-                text: I18n.tr("Technical Contribution")
-                font.bold: true
-                font.pixelSize: Theme.fontSizeSmall
+            spacing: Theme.spacingM
+            visible: root.repoUrl !== ""
+
+            Column {
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width - techBtn.width - parent.spacing
+                spacing: 2
+                StyledText {
+                    text: I18n.tr("Technical Contribution")
+                    font.bold: true
+                    font.pixelSize: Theme.fontSizeSmall
+                }
+                StyledText {
+                    width: parent.width
+                    text: I18n.tr("Help improve the code, report issues, or suggest new features.")
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                    wrapMode: Text.Wrap
+                }
             }
-            StyledText {
-                width: parent.width
-                text: I18n.tr("Help improve the code, report issues, or suggest new features.")
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.surfaceVariantText
-                wrapMode: Text.Wrap
-            }
+
             DankButton {
-                text: I18n.tr("GitHub Repository")
+                id: techBtn
+                anchors.verticalCenter: parent.verticalCenter
+                text: I18n.tr("GitHub")
                 iconName: "code"
                 backgroundColor: Theme.withAlpha(Theme.primary, 0.1)
                 textColor: Theme.primary
-                visible: root.repoUrl !== ""
                 onClicked: Quickshell.execDetached(["gio", "open", root.repoUrl])
             }
         }
 
-        Column {
+        // Translation Section
+        Row {
             width: parent.width
-            spacing: 4
+            spacing: Theme.spacingM
             visible: root.translationUrl !== ""
-            StyledText {
-                text: I18n.tr("Translation")
-                font.bold: true
-                font.pixelSize: Theme.fontSizeSmall
+
+            Column {
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width - transBtn.width - parent.spacing
+                spacing: 2
+                StyledText {
+                    text: I18n.tr("Translation")
+                    font.bold: true
+                    font.pixelSize: Theme.fontSizeSmall
+                }
+                StyledText {
+                    width: parent.width
+                    text: I18n.tr("Help us translate this plugin into your language.")
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                    wrapMode: Text.Wrap
+                }
             }
-            StyledText {
-                width: parent.width
-                text: I18n.tr("Help us translate this plugin into your language.")
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.surfaceVariantText
-                wrapMode: Text.Wrap
-            }
+
             DankButton {
-                text: I18n.tr("Translate Now")
+                id: transBtn
+                anchors.verticalCenter: parent.verticalCenter
+                text: I18n.tr("Translate")
                 iconName: "translate"
                 backgroundColor: Theme.withAlpha(Theme.primary, 0.1)
                 textColor: Theme.primary
