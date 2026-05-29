@@ -87,13 +87,13 @@ PluginComponent {
         let result = ""
         
         if (root.displayFormat === "minimal" && !isDetailed) {
-            if (hours > 0) result = hours + "h " + minutes + "m"
-            else if (minutes > 0) result = minutes + "m " + seconds + "s"
-            else result = seconds + "s"
+            if (hours > 0) result = hours + I18n.tr("h") + " " + minutes + I18n.tr("m")
+            else if (minutes > 0) result = minutes + I18n.tr("m") + " " + seconds + I18n.tr("s")
+            else result = seconds + I18n.tr("s")
         } else if (root.displayFormat === "compact" && !isDetailed) {
-            if (hours > 0) result += hours + "h "
-            if (minutes > 0 || hours > 0) result += minutes + "m "
-            result += seconds + "s"
+            if (hours > 0) result += hours + I18n.tr("h") + " "
+            if (minutes > 0 || hours > 0) result += minutes + I18n.tr("m") + " "
+            result += seconds + I18n.tr("s")
         } else {
             // Full format
             if (isDetailed || hours > 0) {
