@@ -74,7 +74,7 @@ PluginSettings {
         }
     }
 
-    AboutPlugin {
+    PluginAbout {
         repoUrl: "https://github.com/hthienloc/dms-stopwatch"
     }
 }
