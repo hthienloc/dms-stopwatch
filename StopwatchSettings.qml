@@ -74,20 +74,12 @@ PluginSettings {
         }
     }
 
-    FeedbackCard {
-        repoUrl: "https://github.com/hthienloc/dms-stopwatch"
-    }
-
     ContributionCard {
         repoUrl: "https://github.com/hthienloc/dms-stopwatch"
         translationUrl: "https://poeditor.com/join/project/XXXXXXXX"
     }
 
     ContributorsCard {
-        contributors: [
-            { name: "hthienloc", role: "Author", avatar: "assets/author_logo.png" },
-            { name: "Contributor 1", role: "Translation", avatar: "" },
-            { name: "Contributor 2", role: "UI Design", avatar: "" }
-        ]
+        repoUrl: "https://github.com/hthienloc/dms-stopwatch"
     }
 }
