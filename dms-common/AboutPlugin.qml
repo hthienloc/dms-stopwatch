@@ -7,11 +7,9 @@ Column {
     spacing: Theme.spacingM
     
     property string repoUrl: ""
-    property string translationUrl: ""
 
     ContributionCard {
         repoUrl: root.repoUrl
-        translationUrl: root.translationUrl
     }
 
     ContributorsCard {

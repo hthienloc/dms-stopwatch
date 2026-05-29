@@ -76,6 +76,5 @@ PluginSettings {
 
     AboutPlugin {
         repoUrl: "https://github.com/hthienloc/dms-stopwatch"
-        translationUrl: "https://poeditor.com/join/project/XXXXXXXX"
     }
 }
