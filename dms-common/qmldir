@@ -4,3 +4,4 @@ SectionTitle 1.0 SectionTitle.qml
 UsageGuide 1.0 UsageGuide.qml
 ContributionCard 1.0 ContributionCard.qml
 ContributorsCard 1.0 ContributorsCard.qml
+AboutPlugin 1.0 AboutPlugin.qml

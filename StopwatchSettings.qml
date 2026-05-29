@@ -74,12 +74,8 @@ PluginSettings {
         }
     }
 
-    ContributionCard {
+    AboutPlugin {
         repoUrl: "https://github.com/hthienloc/dms-stopwatch"
         translationUrl: "https://poeditor.com/join/project/XXXXXXXX"
-    }
-
-    ContributorsCard {
-        repoUrl: "https://github.com/hthienloc/dms-stopwatch"
     }
 }
