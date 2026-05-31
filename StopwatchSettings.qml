@@ -11,24 +11,6 @@ PluginSettings {
     pluginId: "stopwatch"
 
     SettingsCard {
-        SectionTitle { 
-            id: usageTitle
-            text: I18n.tr("Usage Guide")
-            icon: "menu_book" 
-            collapsible: true
-            settingKey: "usageGuideExpanded"
-        }
-
-        UsageGuide {
-            expanded: usageTitle.isExpanded
-            items: [
-                I18n.tr("<b>Left-click</b> to <b>Start</b> or <b>Pause</b> the stopwatch."),
-                I18n.tr("<b>Right-click</b> to <b>Reset</b> the time to zero.")
-            ]
-        }
-    }
-
-    SettingsCard {
         id: displaySection
         SectionTitle { 
             text: I18n.tr("Display"); 
@@ -101,6 +83,24 @@ PluginSettings {
                 { label: I18n.tr("1 FPS (1000ms)"), value: "1000" }
             ]
             defaultValue: "100"
+        }
+    }
+
+    SettingsCard {
+        SectionTitle { 
+            id: usageTitle
+            text: I18n.tr("Usage Guide")
+            icon: "menu_book" 
+            collapsible: true
+            settingKey: "usageGuideExpanded"
+        }
+
+        UsageGuide {
+            expanded: usageTitle.isExpanded
+            items: [
+                I18n.tr("<b>Left-click</b> to <b>Start</b> or <b>Pause</b> the stopwatch."),
+                I18n.tr("<b>Right-click</b> to <b>Reset</b> the time to zero.")
+            ]
         }
     }
 
