@@ -11,8 +11,16 @@ PluginSettings {
     pluginId: "stopwatch"
 
     SettingsCard {
-        SectionTitle { text: I18n.tr("Usage Guide"); icon: "menu_book" }
+        SectionTitle { 
+            id: usageTitle
+            text: I18n.tr("Usage Guide")
+            icon: "menu_book" 
+            collapsible: true
+            settingKey: "usageGuideExpanded"
+        }
+
         UsageGuide {
+            expanded: usageTitle.isExpanded
             items: [
                 I18n.tr("<b>Left-click</b> to <b>Start</b> or <b>Pause</b> the stopwatch."),
                 I18n.tr("<b>Right-click</b> to <b>Reset</b> the time to zero.")
@@ -21,12 +29,24 @@ PluginSettings {
     }
 
     SettingsCard {
-        SectionTitle { text: I18n.tr("Display"); icon: "desktop_windows" }
+        id: displaySection
+        SectionTitle { 
+            text: I18n.tr("Display"); 
+            icon: "desktop_windows" 
+            showReset: displayFormat.isDirty || showIcon.isDirty || hideTimerOnRun.isDirty || msPrecision.isDirty || refreshInterval.isDirty
+            onResetClicked: {
+                displayFormat.resetToDefault();
+                showIcon.resetToDefault();
+                hideTimerOnRun.resetToDefault();
+                msPrecision.resetToDefault();
+                refreshInterval.resetToDefault();
+            }
+        }
 
-        SelectionSetting {
+        SelectionSettingPlus {
+            id: displayFormat
             settingKey: "displayFormat"
             label: I18n.tr("Display Format")
-            description: I18n.tr("Choose how the time is formatted.")
             options: [
                 { label: "00:00:00", value: "full" },
                 { label: I18n.tr("1h 5m 10s"), value: "compact" },
@@ -35,33 +55,43 @@ PluginSettings {
             defaultValue: "full"
         }
 
-        ToggleSetting {
+        Separator {}
+
+        ToggleSettingPlus {
+            id: showIcon
             settingKey: "showIcon"
             label: I18n.tr("Show Icon")
-            description: I18n.tr("Display the play/pause icon on the bar.")
             defaultValue: true
         }
 
-        ToggleSetting {
+        Separator {}
+
+        ToggleSettingPlus {
+            id: hideTimerOnRun
             settingKey: "hideTimerOnRun"
             label: I18n.tr("Hide Timer on Run")
-            description: I18n.tr("Only show the icon while running (shows timer again if paused).")
             defaultValue: false
         }
 
-        SliderSetting {
+        Separator {}
+
+        SliderSettingPlus {
+            id: msPrecision
             label: I18n.tr("Millisecond Precision")
-            description: I18n.tr("Number of decimal places (0 to disable).")
             settingKey: "msPrecision"
             minimum: 0
             maximum: 3
+            leftLabel: "0"
+            rightLabel: "3"
             defaultValue: 0
         }
 
-        SelectionSetting {
+        Separator {}
+
+        SelectionSettingPlus {
+            id: refreshInterval
             settingKey: "refreshInterval"
             label: I18n.tr("Refresh Interval")
-            description: I18n.tr("Control how frequently the stopwatch display updates.")
             options: [
                 { label: I18n.tr("60 FPS (16ms)"), value: "16" },
                 { label: I18n.tr("30 FPS (33ms)"), value: "33" },
